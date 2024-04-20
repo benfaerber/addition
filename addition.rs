@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 /// ! Implement Addition with no plus sign 
 
 /// My boolean implementation
@@ -175,7 +176,6 @@ impl Digit {
 mod test {
     use super::*;
 
-
     #[test]
     fn number_test() {
         let a = Number::from(3);
@@ -186,16 +186,16 @@ mod test {
         let b = Number::from(5);
         assert_eq!(a.add(b), Number::from(15));
 
-        let a = Number(vec![One, Zero, Three]);
-        let b = Number(vec![Four]);
+        let a: Number = 103.into();
+        let b: Number = 4.into();
         assert_eq!(a.add(b), Number::from(107)); 
 
-        let a = Number(vec![One, Zero, Six]);
-        let b = Number(vec![Five]);
+        let a: Number = 106.into();
+        let b: Number = 5.into();
         assert_eq!(a.add(b), Number::from(111)); 
 
-        let a = Number(vec![One, Zero, Six]);
-        let b = Number(vec![     Five, Four]);
+        let a: Number = 106.into();
+        let b: Number = 54.into();
         assert_eq!(a.add(b), Number::from(160));
     }
 }
