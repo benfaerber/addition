@@ -1,10 +1,11 @@
 #![allow(dead_code)]
-/// ! Implement Addition with no plus sign
+//! Implement Addition with no plus sign
 
 const DEBUG_OUTPUT: bool = true;
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Default)]
 enum Digit {
+    #[default]
     Zero,
     One,
     Two,
@@ -16,6 +17,7 @@ enum Digit {
     Eight,
     Nine,
 }
+
 use Digit::*;
 
 impl Digit {
@@ -83,11 +85,17 @@ impl Digit {
     }
 }
 
-fn fill_to_len(lst: &Vec<Digit>, size: usize) -> Vec<Digit> {
+impl Into<Number> for Digit {
+    fn into(self) -> Number {
+        Number(vec![self])   
+    }
+}
+
+fn fill_to_len<T: Clone + Default>(lst: &Vec<T>, size: usize) -> Vec<T> {
     let mut reved = lst.clone();
     reved.reverse();
     for _ in 0..(size - lst.len()) {
-        reved.push(Zero);
+        reved.push(Default::default());
     }
     reved.reverse();
     reved
@@ -143,6 +151,11 @@ impl Number {
     }
 }
 
+impl Default for Number {
+    fn default() -> Self {
+        Self(vec![Zero])
+    }
+}
 
 macro_rules! add_from_int_impl {
     ($($t:ty)*) => ($(
@@ -169,6 +182,11 @@ mod test {
 
     #[test]
     fn number_test() {
+        {
+            let a = Number::default();
+            let b: Number = 9.into();
+            assert_eq!(a.add(b), Nine.into());
+        }
         {
             let a = Number::from(3_i8);
             let b = Number::from(5_i8);

@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-/// ! Boolean logic implemented in Rust to show the power of pattern matching
+//! Boolean logic implemented in Rust to show the power of pattern matching
 
 #[derive(Debug, PartialEq)]
 pub enum Boolean {
