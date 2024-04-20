@@ -1,4 +1,7 @@
-/// Implement addition with no + 
+/// ! Implement Addition with no plus sign 
+
+const DEBUG_OUTPUT: bool = false;
+
 #[derive(Copy, Clone, Debug, PartialEq)]
 enum Digit {
     Zero,
@@ -38,30 +41,35 @@ impl Number {
         Self(digits)
     }
 
+    fn digits(&self) -> &Vec<Digit> {
+        &self.0
+    }
 
     fn add(self, other: Self) -> Number {
         let self_larger = self.0.len() > other.0.len(); 
+        let self_len = self.0.len();
+        let other_len = other.0.len();
 
-        let nums_a: Vec<Digit> = if self_larger {
-            self.0.clone()
+        let nums_a = if self_larger {
+            self.0
         } else {
-            fill_to_len(&self.0, other.0.len())
+            fill_to_len(&self.0, other_len) 
         };
 
-        let nums_b: Vec<Digit> = if !self_larger {
+        let nums_b = if !self_larger {
             other.0
         } else {
-            fill_to_len(&other.0, self.0.len())
+            fill_to_len(&other.0, self_len) 
         }; 
-
-        println!("Adding:");
-        println!("{nums_a:?}");
-        println!("{nums_b:?}");
+    
+        if DEBUG_OUTPUT {
+            println!("Adding:");
+            println!("{nums_a:?}");
+            println!("{nums_b:?}");
+        }
         
         let mut sol = nums_a.clone();
-        let mut range: Vec<usize> = (0..nums_a.len()).collect();
-        range.reverse();
-        for i in range { 
+        for i in (0..nums_a.len()).rev() { 
             let num_a = sol.get(i).unwrap();
             let num_b = nums_b.get(i).unwrap();
             
@@ -70,21 +78,29 @@ impl Number {
             let mut curr = i; 
             while base_change {
                 curr -= 1;
-                println!("Base change");
+                // println!("Base change");
                 let (next_base, next_base_digit) = sol[curr].add_one();
                 
                 base_change = next_base;
                 sol[curr] = next_base_digit;
-                println!("Sol {sol:?}");
+                // println!("Sol {sol:?}");
             }
             
             sol[i] = new_digit;
         }
 
-        println!("Solution:");
-        println!("{sol:?}");
+        if DEBUG_OUTPUT {
+            println!("Solution:");
+            println!("{sol:?}");
+        }
         
         Number(sol)
+    }
+}
+
+impl From<i32> for Number {
+    fn from(value: i32) -> Self {
+        Number::from(value) 
     }
 }
 
@@ -162,6 +178,14 @@ mod test {
 
     #[test]
     fn number_test() {
+        let a = Number::from(3);
+        let b = Number::from(5);
+        assert_eq!(a.add(b), Number::from(8));
+
+        let a = Number::from(10);
+        let b = Number::from(5);
+        assert_eq!(a.add(b), Number::from(15));
+
         let a = Number(vec![One, Zero, Three]);
         let b = Number(vec![Four]);
         assert_eq!(a.add(b), Number::from(107)); 
