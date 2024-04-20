@@ -8,5 +8,5 @@ edition = "2021"
 [dependencies]
 
 [lib]
-name = "boolean"
-path = "boolean.rs"
+name = "addition"
+path = "lib.rs"

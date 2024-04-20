@@ -1,46 +1,43 @@
 #![allow(dead_code)]
 /// ! Boolean logic implemented in Rust to show the power of pattern matching
-/// ! Not allowed to use any boolean operators
-
-mod addition;
 
 #[derive(Debug, PartialEq)]
-enum Boolean {
+pub enum Boolean {
     True,
     False,
 }
 use Boolean::*;
 
 impl Boolean {
-    fn and(&self, other: Self) -> Self {
+    pub fn and(&self, other: Self) -> Self {
         match (self, other) {
             (True, True) => True,
             _ => False,
         }
     }
 
-    fn or(&self, other: Self) -> Self {
+    pub fn or(&self, other: Self) -> Self {
         match (self, other) {
             (_, True) | (True, _) => True,
             _ => False,
         }
     }
 
-    fn not(&self) -> Self {
+    pub fn not(&self) -> Self {
         match self {
             True => False,
             False => True,
         }
     }
 
-    fn eq(&self, other: Self) -> Self {
+    pub fn eq(&self, other: Self) -> Self {
         match (self, other) {
             (True, True) | (False, False) => True,
             _ => False,
         }
     }
 
-    fn neq(&self, other: Self) -> Self {
+    pub fn neq(&self, other: Self) -> Self {
         self.eq(other).not()
     }
 }

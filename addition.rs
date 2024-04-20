@@ -1,6 +1,10 @@
 /// ! Implement Addition with no plus sign 
 
-const DEBUG_OUTPUT: bool = false;
+/// My boolean implementation
+use super::boolean::Boolean;
+use super::boolean::Boolean::*;
+
+const DEBUG_OUTPUT: Boolean = False;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 enum Digit {
@@ -33,16 +37,12 @@ struct Number(Vec<Digit>);
 
 impl Number {
     fn from(number: i32) -> Self {
-        let digits: Vec<Digit> = number.to_string()
+        let digits: Vec<_> = number.to_string()
             .chars()
             .into_iter()
             .map(Digit::from_char)
             .collect();
         Self(digits)
-    }
-
-    fn digits(&self) -> &Vec<Digit> {
-        &self.0
     }
 
     fn add(self, other: Self) -> Number {
@@ -62,7 +62,7 @@ impl Number {
             fill_to_len(&other.0, self_len) 
         }; 
     
-        if DEBUG_OUTPUT {
+        if DEBUG_OUTPUT == True {
             println!("Adding:");
             println!("{nums_a:?}");
             println!("{nums_b:?}");
@@ -76,7 +76,7 @@ impl Number {
             let (this_base_change, new_digit) = num_a.add_many(num_b);
             let mut base_change = this_base_change;
             let mut curr = i; 
-            while base_change {
+            while base_change == True {
                 curr -= 1;
                 // println!("Base change");
                 let (next_base, next_base_digit) = sol[curr].add_one();
@@ -89,7 +89,7 @@ impl Number {
             sol[i] = new_digit;
         }
 
-        if DEBUG_OUTPUT {
+        if DEBUG_OUTPUT == True {
             println!("Solution:");
             println!("{sol:?}");
         }
@@ -137,7 +137,7 @@ impl Digit {
         }
     }
 
-    fn add_one(&self) -> (bool, Digit) {
+    fn add_one(&self) -> (Boolean, Digit) {
         let digit = match self {
             Zero => One, 
             One => Two, 
@@ -151,19 +151,19 @@ impl Digit {
             Nine => Zero, 
         };
 
-        let base_change = matches!(self, Nine); 
+        let base_change = if matches!(self, Nine) {True} else {False}; 
         (base_change, digit)
     }
 
-    fn add_many(&self, other: &Digit) -> (bool, Digit) {
+    fn add_many(&self, other: &Digit) -> (Boolean, Digit) {
         let ones = other.as_ones();
-        let mut has_base_change = false;
+        let mut has_base_change = False;
         let mut digit = *self;
         for _ in ones {
             let (base_change, new_digit) = digit.add_one();
             digit = new_digit;
-            if base_change {
-                has_base_change = true;
+            if base_change == True {
+                has_base_change = True;
             }
         }
         (has_base_change, digit) 
