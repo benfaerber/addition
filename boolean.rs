@@ -43,6 +43,22 @@ impl Boolean {
 }
 
 
+impl From<bool> for Boolean {
+    fn from(value: bool) -> Self {
+        if value {
+            True
+        } else {
+            False
+        } 
+    }
+}
+
+impl Into<bool> for Boolean {
+    fn into(self) -> bool {
+        matches!(self, True)
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::Boolean::*;
