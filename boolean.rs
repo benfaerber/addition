@@ -6,6 +6,7 @@ pub enum Boolean {
     True,
     False,
 }
+
 use Boolean::*;
 
 impl Boolean {
